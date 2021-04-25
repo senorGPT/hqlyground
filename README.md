@@ -1,5 +1,6 @@
 # HQLY: Teleport to Ground
 Fivem script which allows players to teleport themselves to a safe ground position or a predefined location as per config file.  
+
 Forum Post: https://forum.cfx.re/t/free-standalone-hqly-teleport-to-ground/2731079  
 Tebex Post: https://hqlyrp.tebex.io/package/4445638
 
