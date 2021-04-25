@@ -11,7 +11,7 @@ None, it’s standalone!
 Configuration file
 
 # Configuration File:
-_displayText_: The message which will be displayed to users
+_displayText_: The message which will be displayed to users\n
 _key_: Key which activates the teleport. Control key numbers can be found here.
 _preset_: Whether or not to teleport the player to the ground or to a predefined location
 _coords_: The X,Y,Z of the predefined location to teleport the player to if *preset* is true
