@@ -3,25 +3,25 @@ Citizen.CreateThread(function()
 	Citizen.Wait(1000)
 	
 	while true do
-		ped = GetPlayerPed(-1)
-		cords = GetEntityCoords(ped)
+		local _ped = PlayerPedId()
+		local _coords = GetEntityCoords(_ped)
 		
-		if cords.z < config.z_check then
+		if _coords.z < config.z_check then
 			drawTxt(config.displayText, 0, 1, 0.5, 0.8, 0.4, 128, 128, 128, 255)
 			
 			if IsControlJustReleased(0, config.key) then
-				gotcords, place = GetGroundZFor_3dCoord(cords.x, cords.y, 150.0, 0)
+				gotcords, place = GetGroundZFor_3dCoord(_coords.x, _coords.y, 150.0, 0)
 	
-				ClearPedTasksImmediately(ped)
+				ClearPedTasksImmediately(_ped)
 				if config.preset then
-					SetEntityCoords(ped, config.coords.x, config.coords.y, config.coords.z, true, false, false, false)
+					SetEntityCoords(_ped, config.coords.x, config.coords.y, config.coords.z, true, false, false, false)
 				else
-					SetEntityCoords(ped, cords.x, cords.y, place + 1.0, true, false, false, false)
+					SetEntityCoords(_ped, _coords.x, _coords.y, place + 1.0, true, false, false, false)
 				end
 				
 				if config.freeze then
 					Citizen.CreateThread(function()
-						FreezeEntityPosition(ped, true)
+						FreezeEntityPosition(_ped, true)
 						
 						local timer = config.freeze_time
 						while timer > 0 do
@@ -29,7 +29,7 @@ Citizen.CreateThread(function()
 							Citizen.Wait(1000)
 						end
 						
-						FreezeEntityPosition(ped, false)
+						FreezeEntityPosition(_ped, false)
 					end)
 				end
 			end
