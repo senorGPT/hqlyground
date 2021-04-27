@@ -20,9 +20,9 @@ _preset_: Whether or not to teleport the player to the ground or to a predefined
 _coords_: The X,Y,Z of the predefined location to teleport the player to if *preset* is true\
 _z_check_: The Z coordinate to display the prompt and allow the player to teleport\
 _freeze_: Whether or not to freeze the player after the teleport\
-_freeze_time_: The amount of time to freeze the player for -in seconds- if *freeze* is set to true
-_check_swimming_: Ignore players that are swimming
-_check_falling_: Ignore players that are not falling
+_freeze_time_: The amount of time to freeze the player for -in seconds- if *freeze* is set to true  
+_check_swimming_: Ignore players that are swimming  
+_check_falling_: Ignore players that are not falling  
 _check_inside_: Ignore players that are inside buildings - experimental -
 
 # Preview:
