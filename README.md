@@ -21,6 +21,9 @@ _coords_: The X,Y,Z of the predefined location to teleport the player to if *pre
 _z_check_: The Z coordinate to display the prompt and allow the player to teleport\
 _freeze_: Whether or not to freeze the player after the teleport\
 _freeze_time_: The amount of time to freeze the player for -in seconds- if *freeze* is set to true
+_check_swimming_: Ignore players that are swimming
+_check_falling_: Ignore players that are not falling
+_check_inside_: Ignore players that are inside buildings - experimental -
 
 # Preview:
 Video: https://gyazo.com/32b2b77ab05ee5ef4be4bae6d7318491  
