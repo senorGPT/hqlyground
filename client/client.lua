@@ -5,39 +5,53 @@ Citizen.CreateThread(function()
 	while true do
 		-- get the details
 		_ped = PlayerPedId()
+		_target = _ped
 		-- check if player is dead or not existing
 		if IsEntityDead(_ped) or not DoesEntityExist(_ped) then
 			Citizen.Wait(1000) -- delay it a bit to optimize a little bit
 			goto m_next
 		end
 		
-		_coords = GetEntityCoords(_ped)
+		flag_prompt = false
+		veh = GetVehiclePedIsIn(_ped, false)
+		if veh ~= 0 then -- get the entity coordinates of the vehicle instead
+			_target = veh
+		end
+
+		_coords = GetEntityCoords(_target)
 		_, z = GetGroundZFor_3dCoord(_coords.x, _coords.y, 150.0, 0) -- starting at 150.0 at Z since it works up-down, but not down-up	
 		-- is ped lower than the z co-ordinate we want to look at
 		if _coords.z < config.z_check then
-			-- flag checking per config file for: ped is swimming/falling/inside
-			local flag_swimming, flag_falling, flag_inside = true, true, true
-			if config.check_swimming and (IsPedSwimming(_ped) or IsPedSwimmingUnderWater(_ped)) then
-				flag_swimming = false
-			end
-			if config.check_falling and not IsPedFalling(_ped) then
-				flag_falling = false
-			end
-			if config.check_inside and not IsPedFalling(_ped) and z > _coords.z then 
-				flag_inside = false
-			end
 			
+			-- ignore players which are swimming
+			-- TODO: possibly add another Z level check for swimming peds
+			if IsPedSwimming(_ped) or IsPedSwimmingUnderWater(_ped) or (not IsPedFalling(_ped) and veh == 0) then
+				goto m_next
+			end
+			-- trigger prompt if the ped is falling
+			if IsPedFalling(_ped) then
+				flag_prompt = true
+			end
+			-- check if player is in vehicle and if its falling, trigger prompt
+			if veh ~= 0 and IsEntityInAir(veh) then
+				flag_prompt = true
+			end
+
 			-- display the prompt for trigger
-			if flag_falling and flag_swimming and flag_inside then
+			if flag_prompt then
 				drawTxt(config.displayText, 0, 1, 0.5, 0.8, 0.4, 128, 128, 128, 255)
 			end
-			if IsControlJustReleased(0, config.key) and (flag_falling and flag_swimming and flag_inside) then
+			if IsControlJustReleased(0, config.key) and flag_prompt then
 				ClearPedTasksImmediately(_ped)
 				-- whether to teleport the player to the ground or predefined location
 				if config.preset then
-					SetEntityCoords(_ped, config.coords.x, config.coords.y, config.coords.z, true, false, false, false)
+					SetEntityCoordsNoOffset(_target, config.coords.x, config.coords.y, config.coords.z, true, false, false)
 				else
-					SetEntityCoords(_ped, _coords.x, _coords.y, z + 1.0, true, false, false, false) -- +1.0 on Z to compensate for _ped height
+					SetEntityCoordsNoOffset(_target, _coords.x, _coords.y, z, true, false, false) 
+				end
+				-- teleport the player into the vehicle (for some reason it only teleports the vehicle entity)
+				if veh ~= 0 then
+					SetPedIntoVehicle(_ped, veh, -1)
 				end
 				-- freeze the player for x seconds per config file
 				if config.freeze then

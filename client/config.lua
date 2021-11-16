@@ -7,7 +7,4 @@ config = {
 	['z_check'] = 0.0,												-- z co-ordinate to prompt the player at, found 0.0 to be the best
 	['freeze'] = false,												-- whether or not to freeze the player for specified amount after teleporting
 	['freeze_time'] = 2,											-- number of seconds to freeze player
-	['check_swimming'] = true,										-- ignore players that are swimming
-	['check_falling'] = true,										-- ignore players that are not falling
-	['check_inside'] = true,										-- ignore players that are inside buildings - experimental -
 }
